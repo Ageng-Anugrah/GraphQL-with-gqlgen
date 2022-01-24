@@ -34,6 +34,6 @@ type Message {
 
 type Mutation {
   createBook(input: NewBook!): Book!
-  updateBook(id: UpdateBook!): Book!
+  updateBook(input: UpdateBook!): Book!
   deleteBook(id: String!): Message!
 }

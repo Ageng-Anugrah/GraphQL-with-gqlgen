@@ -18,20 +18,39 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.NewBook) 
 		Year:   input.Year,
 		Author: &model.Author{ID: input.AuthorID},
 	}
-	r.books = append(r.books, book)
-	return book, nil
+	return r.serviceBook.CreateBook(book)
 }
 
-func (r *mutationResolver) UpdateBook(ctx context.Context, id model.UpdateBook) (*model.Book, error) {
-	panic(fmt.Errorf("not implemented"))
+func (r *mutationResolver) UpdateBook(ctx context.Context, input model.UpdateBook) (*model.Book, error) {
+	book := &model.Book{
+		ID:     input.ID,
+		Title:  input.Title,
+		Year:   input.Year,
+		Author: &model.Author{ID: input.AuthorID},
+	}
+	err := r.serviceBook.UpdateBook(book)
+
+	if err != nil {
+		return nil, err
+	} else {
+		return book, nil
+	}
 }
 
 func (r *mutationResolver) DeleteBook(ctx context.Context, id string) (*model.Message, error) {
-	panic(fmt.Errorf("not implemented"))
+	err := r.serviceBook.DeleteBook(id)
+
+	if err != nil {
+		return nil, err
+	} else {
+		return &model.Message{
+			Message: "Success",
+		}, nil
+	}
 }
 
 func (r *queryResolver) Books(ctx context.Context) ([]*model.Book, error) {
-	return r.books, nil
+	return r.serviceBook.ListBook()
 }
 
 // Mutation returns generated.MutationResolver implementation.

@@ -63,7 +63,7 @@ type ComplexityRoot struct {
 	Mutation struct {
 		CreateBook func(childComplexity int, input model.NewBook) int
 		DeleteBook func(childComplexity int, id string) int
-		UpdateBook func(childComplexity int, id model.UpdateBook) int
+		UpdateBook func(childComplexity int, input model.UpdateBook) int
 	}
 
 	Query struct {
@@ -73,7 +73,7 @@ type ComplexityRoot struct {
 
 type MutationResolver interface {
 	CreateBook(ctx context.Context, input model.NewBook) (*model.Book, error)
-	UpdateBook(ctx context.Context, id model.UpdateBook) (*model.Book, error)
+	UpdateBook(ctx context.Context, input model.UpdateBook) (*model.Book, error)
 	DeleteBook(ctx context.Context, id string) (*model.Message, error)
 }
 type QueryResolver interface {
@@ -185,7 +185,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateBook(childComplexity, args["id"].(model.UpdateBook)), true
+		return e.complexity.Mutation.UpdateBook(childComplexity, args["input"].(model.UpdateBook)), true
 
 	case "Query.books":
 		if e.complexity.Query.Books == nil {
@@ -294,7 +294,7 @@ type Message {
 
 type Mutation {
   createBook(input: NewBook!): Book!
-  updateBook(id: UpdateBook!): Book!
+  updateBook(input: UpdateBook!): Book!
   deleteBook(id: String!): Message!
 }
 `, BuiltIn: false},
@@ -339,14 +339,14 @@ func (ec *executionContext) field_Mutation_updateBook_args(ctx context.Context, 
 	var err error
 	args := map[string]interface{}{}
 	var arg0 model.UpdateBook
-	if tmp, ok := rawArgs["id"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNUpdateBook2graphqlᚑwithᚑgoᚋgraphᚋmodelᚐUpdateBook(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["id"] = arg0
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -750,7 +750,7 @@ func (ec *executionContext) _Mutation_updateBook(ctx context.Context, field grap
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateBook(rctx, args["id"].(model.UpdateBook))
+		return ec.resolvers.Mutation().UpdateBook(rctx, args["input"].(model.UpdateBook))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
