@@ -15,7 +15,18 @@ type Book struct {
 	Author *Author `json:"author"`
 }
 
+type Message struct {
+	Message string `json:"Message"`
+}
+
 type NewBook struct {
+	Title    string `json:"title"`
+	Year     int    `json:"year"`
+	AuthorID string `json:"authorId"`
+}
+
+type UpdateBook struct {
+	ID       string `json:"id"`
 	Title    string `json:"title"`
 	Year     int    `json:"year"`
 	AuthorID string `json:"authorId"`
