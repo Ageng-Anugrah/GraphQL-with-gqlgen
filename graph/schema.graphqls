@@ -14,3 +14,13 @@ type Book {
 type Query {
     books: [Book!]!
 }
+
+input NewBook {
+  title: String!
+  year: Int!
+  authorId: String!
+}
+
+type Mutation {
+  createBook(input: NewBook!): Book!
+}
