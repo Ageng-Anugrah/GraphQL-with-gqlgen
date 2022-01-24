@@ -10,3 +10,7 @@ type Book {
     year: Int!
     author: Author!
 }
+
+type Query {
+    books: [Book!]!
+}
